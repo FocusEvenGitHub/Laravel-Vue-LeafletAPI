@@ -90,12 +90,24 @@ class TrechoController extends Controller
     }
 
     // Mostrar o formulário de edição
-    public function edit(Trecho $trecho)
-    {
-        $ufs = Uf::all();
-        $rodovias = Rodovia::all();
-        return view('trechos.edit', compact('trecho', 'ufs', 'rodovias'));
-    }
+    public function edit(Trecho $trecho, Request $request)
+{
+    // Obter o uf_id da requisição, se fornecido
+    $ufId = $request->input('uf_id');
+
+    // Obter todas as UFs
+    $ufs = Uf::all();
+
+    // Filtrar as rodovias com base no uf_id, se fornecido
+    $rodovias = Rodovia::when($ufId, function ($query) use ($ufId) {
+        return $query->where('uf_id', $ufId);
+    })->get();
+
+    return view('trechos.edit', compact('trecho', 'ufs', 'rodovias'));
+}
+
+
+
 
     // Atualizar um trecho
     public function update(Request $request, Trecho $trecho)

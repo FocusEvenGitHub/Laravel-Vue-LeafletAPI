@@ -54,7 +54,7 @@
             </tbody>
         </table>
 
-        <!-- Adicione a navegação de paginação -->
+        <!-- Add pagination navigation -->
         <div class="pagination">
             {{ $trechos->links() }}
         </div>
