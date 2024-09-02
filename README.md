@@ -54,9 +54,8 @@ Gere a chave da aplicação
 Execute as migrações e a seed
 
     php artisan migrate
-    php artisan db:seed
-    php artisan db:seed --class=UfSeeder
-    php artisan db:seed --class=RodoviaSeeder
+    php artisan migrate:fresh --seed
+
 
 Compile os assets
 
