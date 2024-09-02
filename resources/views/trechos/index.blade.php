@@ -3,10 +3,14 @@
 <head>
     <link rel="stylesheet" href="https://bootswatch.com/5/sandstone/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Trechos</title>
     <style>
+        .hidden{
+            display: none;
+        }
         .container {
             margin-top: 20px;
         }
@@ -18,6 +22,12 @@
         }
         table th {
             background-color: #f8f9fa;
+        }
+        .btn-icon {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+            line-height: 1;
+            border-radius: 0.2rem;
         }
     </style>
 </head>
@@ -44,11 +54,15 @@
                         <td>{{ $trecho->quilometragem_inicial }}</td>
                         <td>{{ $trecho->quilometragem_final }}</td>
                         <td>
-                            <a href="{{ route('trechos.edit', $trecho) }}" class="btn btn-secondary btn-sm">Editar</a>
-                            <form class="delete-form" action="{{ route('trechos.destroy', $trecho->id) }}" method="POST" style="display:inline;">
+                            <a href="{{ route('trechos.edit', $trecho) }}" class="btn btn-secondary btn-sm btn-icon">
+                                <i class="fas fa-edit" title="Editar"></i>
+                            </a>
+                            <form class="delete-form" title="Delete" action="{{ route('trechos.destroy', $trecho->id) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
+                                <button type="submit" class="btn btn-danger btn-sm btn-icon">
+                                    <i class="fas fa-trash"></i>
+                                </button>
                             </form>
                         </td>
                     </tr>
@@ -90,8 +104,3 @@
     </script>
 </body>
 </html>
-<style>
-    .hidden{
-        display: none;
-    }
-</style>
