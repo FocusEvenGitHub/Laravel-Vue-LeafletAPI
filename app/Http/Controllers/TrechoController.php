@@ -26,23 +26,20 @@ class TrechoController extends Controller
         return view('trechos.create', compact('ufs'));
     }
 
-    // Armazenar um novo trecho
     public function store(Request $request)
     {
-        // Validação dos dados de entrada
-        $validatedData = $request->validate([
-        'data_referencia' => 'required|date',
-        'uf_id' => 'required|exists:ufs,id',
-        'rodovia_id' => 'required|exists:rodovias,id',
-        'quilometragem_inicial' => 'required|numeric',
-        'quilometragem_final' => 'required|numeric',
-    ]);
+        $request->validate([
+            'data_referencia' => 'required|date',
+            'uf_id' => 'required|exists:ufs,id',
+            'rodovia_id' => 'required|exists:rodovias,id',
+            'quilometragem_inicial' => 'required|numeric',
+            'quilometragem_final' => 'required|numeric',
+            'tipo' => 'required|string', 
+        ]);
 
-        // Buscar UF e Rodovia
         $uf = \App\Models\Uf::findOrFail($request->uf_id);
         $rodovia = \App\Models\Rodovia::findOrFail($request->rodovia_id);
 
-        // Montar URL para a requisição API
         $url = "https://servicos.dnit.gov.br/sgplan/apigeo/rotas/espacializarlinha?";
         $params = [
             'br' => $rodovia->rodovia,  // Número da rodovia
@@ -77,7 +74,7 @@ class TrechoController extends Controller
                 return response()->json([
                     'success' => true,
                     'trecho' => $trecho,
-                    'geo' => $geoData
+                    'geo' => json_encode($geoData) 
                 ]);
             } else {
                 return response()->json(['success' => false, 'message' => 'Erro ao buscar geometria'], 500);
