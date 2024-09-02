@@ -21,8 +21,8 @@ import { Head } from '@inertiajs/vue3';
     const ufs = ref([]);
     const rodovias = ref([]);
     const tipos = ref([]);
-    const map = ref(null); // Referência ao mapa
-    const geoData = ref(null); // Dados GeoJSON
+    const map = ref(null); 
+    const geoData = ref(null);
     
 
     const fetchUfs = async () => {
@@ -186,7 +186,7 @@ import { Head } from '@inertiajs/vue3';
           <select class="form-select" v-model="filters.rodovia" id="rodovia" :disabled="!filters.uf">
             <option value="">Selecione uma rodovia</option>
             <option v-for="rodovia in rodovias" :key="rodovia.id" :value="rodovia.rodovia">{{ rodovia.rodovia }}</option>
-          </select>
+          </select> 
         </div>
 
         <div class="col-md-2">

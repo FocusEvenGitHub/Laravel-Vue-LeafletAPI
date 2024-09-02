@@ -25,47 +25,45 @@ O Sistema Rodovias é um projeto desenvolvido em Laravel para gerenciar informa�
    git clone https://github.com/seu-usuario/sistema-rodovias.git
 Navegue para o diretório do projeto
 
-bash
-Copiar código
-cd sistema-rodovias
+    cd sistema-rodovias
 Instale as dependências do PHP
 
-bash
-Copiar código
-composer install
+### No php.ini
+Procure pela linha que contém 
+    
+        ;extension=fileinfo
+        ;extension=pdo_mysql
+        ;extension=zip
+        
+Remova o ponto e vírgula (;) do início da linha para habilitar as extensões
+
+    composer install
 Configure o ambiente
 
 Copie o arquivo .env.example para .env e ajuste as configurações do banco de dados e outras variáveis conforme necessário.
 
-bash
-Copiar código
-cp .env.example .env
+
+    cp .env.example .env
 Gere a chave da aplicação
 
-bash
-Copiar código
-php artisan key:generate
-Execute as migrações
+    php artisan key:generate
+Execute as migrações e a seed
 
-bash
-Copiar código
-php artisan migrate
+    php artisan migrate
+    php artisan db:seed
+    php artisan db:seed --class=UfSeeder
+    php artisan db:seed --class=RodoviaSeeder
+
 Compile os assets
 
-Se estiver usando o Laravel Mix para compilar assets, execute:
-
-bash
-Copiar código
-npm install
-npm run dev
+    npm install
+    npm run dev
 Inicie o servidor
 
-bash
-Copiar código
-php artisan serve
+    php artisan serve
 O aplicativo estará disponível em http://localhost:8000.
 
-Estrutura do Projeto
+### Estrutura do Projeto
 app/: Contém o código-fonte do aplicativo, incluindo controladores, modelos e serviços.
 database/: Contém arquivos de migração e seeds.
 resources/: Contém as views e os arquivos de front-end (CSS, JavaScript).

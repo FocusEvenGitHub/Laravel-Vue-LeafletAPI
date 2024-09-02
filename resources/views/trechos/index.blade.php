@@ -42,7 +42,7 @@
                         <td>{{ $trecho->quilometragem_inicial }}</td>
                         <td>{{ $trecho->quilometragem_final }}</td>
                         <td>
-                            <a href="{{ route('trechos.edit', $trecho->id) }}" class="btn btn-secondary btn-sm">Editar</a>
+                            <a href="{{ route('trechos.edit', $trecho) }}" class="btn btn-secondary btn-sm">Editar</a>
                             <form action="{{ route('trechos.destroy', $trecho->id) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
@@ -54,7 +54,6 @@
             </tbody>
         </table>
 
-        <!-- Add pagination navigation -->
         <div class="pagination">
             {{ $trechos->links() }}
         </div>

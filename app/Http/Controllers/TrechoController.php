@@ -23,22 +23,20 @@ class TrechoController extends Controller
     public function create()
     {
         $ufs = Uf::all();
-        $rodovias = Rodovia::all();
-        return view('trechos.create', compact('ufs', 'rodovias'));
+        return view('trechos.create', compact('ufs'));
     }
 
     // Armazenar um novo trecho
     public function store(Request $request)
     {
         // Validação dos dados de entrada
-        $request->validate([
-            'data_referencia' => 'required|date',
-            'uf_id' => 'required|exists:ufs,id',
-            'rodovia_id' => 'required|exists:rodovias,id',
-            'quilometragem_inicial' => 'required|numeric',
-            'quilometragem_final' => 'required|numeric',
-            'tipo' => 'required|string', // Adicionando validação para o tipo
-        ]);
+        $validatedData = $request->validate([
+        'data_referencia' => 'required|date',
+        'uf_id' => 'required|exists:ufs,id',
+        'rodovia_id' => 'required|exists:rodovias,id',
+        'quilometragem_inicial' => 'required|numeric',
+        'quilometragem_final' => 'required|numeric',
+    ]);
 
         // Buscar UF e Rodovia
         $uf = \App\Models\Uf::findOrFail($request->uf_id);
@@ -91,20 +89,21 @@ class TrechoController extends Controller
 
     // Mostrar o formulário de edição
     public function edit(Trecho $trecho, Request $request)
-{
-    // Obter o uf_id da requisição, se fornecido
-    $ufId = $request->input('uf_id');
+    {
+        // Obter o uf_id da requisição, se fornecido
+        $ufId = $trecho->uf_id;
 
-    // Obter todas as UFs
-    $ufs = Uf::all();
+        // Obter todas as UFs
+        $ufs = Uf::all();
 
-    // Filtrar as rodovias com base no uf_id, se fornecido
-    $rodovias = Rodovia::when($ufId, function ($query) use ($ufId) {
-        return $query->where('uf_id', $ufId);
-    })->get();
+        // Filtrar as rodovias com base no uf_id, se fornecido
+        $rodovias = Rodovia::when($ufId, function ($query) use ($ufId) {
+            return $query->where('uf_id', $ufId);
+        })->get();
 
-    return view('trechos.edit', compact('trecho', 'ufs', 'rodovias'));
-}
+        return view('trechos.edit', compact('trecho', 'ufs', 'rodovias'
+        ));
+    }
 
 
 
