@@ -74,7 +74,7 @@ class TrechoController extends Controller
                 return response()->json([
                     'success' => true,
                     'trecho' => $trecho,
-                    'geo' => json_encode($geoData) 
+                    'geo' => $geoData 
                 ]);
             } else {
                 return response()->json(['success' => false, 'message' => 'Erro ao buscar geometria'], 500);

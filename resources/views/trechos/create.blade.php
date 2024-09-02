@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastrar Trecho</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <link rel="stylesheet" href="https://bootswatch.com/5/sandstone/bootstrap.min.css">
     <style>
         .container {
@@ -71,9 +72,8 @@
         </form>
     </div>
 
-    <!-- Inclua Vue.js -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
-    <!-- Inclua Axios para requisições AJAX -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <script>
@@ -145,7 +145,11 @@
                         const rodoviaId = this.rodovias.find(rodovia => rodovia.rodovia === this.filters.rodovia)?.id;
 
                         if (!ufId || !rodoviaId) {
-                            alert('UF ou rodovia inválida.');
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Erro',
+                                text: 'UF ou rodovia inválida.',
+                            });
                             return;
                         }
 
@@ -159,20 +163,27 @@
                         });
 
                         if (response.data.success) {
-                            alert('Trecho salvo com sucesso!');
-                            this.geoData = response.data.geo; 
-
-                            window.location.href = '/trechos';
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Sucesso',
+                            text: 'Trecho salvo com sucesso!',
+                        }).then(() => {
+                            window.location.href = '/'; // Redireciona para a página inicial
+                        });
                         } else {
-                            alert('Erro ao salvar trecho.');
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Erro',
+                            text: response.data.message || 'Erro ao salvar trecho.',
+                        });
                         }
                     } catch (error) {
-                        console.error('Erro ao salvar trecho:', error);
+                        Swal.fire({
+                        icon: 'error',
+                        title: 'Erro',
+                        text: 'Erro ao salvar trecho.',
+                        });
                     }
-                },
-                updateMap() {
-                    // Implementação para atualizar o mapa com os dados de geoData
-                    console.log('Atualizando mapa com os dados:', this.geoData);
                 }
             }
         });

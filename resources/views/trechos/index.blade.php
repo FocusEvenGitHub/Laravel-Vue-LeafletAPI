@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" href="https://bootswatch.com/5/sandstone/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tabela de Trechos</title>
@@ -43,7 +44,7 @@
                         <td>{{ $trecho->quilometragem_final }}</td>
                         <td>
                             <a href="{{ route('trechos.edit', $trecho) }}" class="btn btn-secondary btn-sm">Editar</a>
-                            <form action="{{ route('trechos.destroy', $trecho->id) }}" method="POST" style="display:inline;">
+                            <form class="delete-form" action="{{ route('trechos.destroy', $trecho->id) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
@@ -58,5 +59,33 @@
             {{ $trechos->links() }}
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+    <script>
+        document.querySelectorAll('.delete-form').forEach(form => {
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                Swal.fire({
+                    title: 'Você tem certeza?',
+                    text: 'Isso não pode ser desfeito!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Sim, excluir!',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        this.submit();
+                        Swal.fire(
+                            'Excluído!',
+                            'O trecho foi excluído com sucesso.',
+                            'success'
+                        );
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>

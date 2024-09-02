@@ -5,6 +5,8 @@ import L from 'leaflet';
 import axios from 'axios';
 import NavBar from '@/Components/NavBar.vue';
 import { Head } from '@inertiajs/vue3';
+import Swal from 'sweetalert2';
+
 
 
 
@@ -77,7 +79,11 @@ import { Head } from '@inertiajs/vue3';
         const rodoviaId = rodovias.value.find(rodovia => rodovia.rodovia === filters.value.rodovia)?.id;
 
         if (!ufId || !rodoviaId) {
-          alert('UF ou rodovia inválida.');
+          Swal.fire({
+            icon: 'error',
+            title: 'Erro',
+            text: 'UF ou rodovia inválida.',
+          });
           return;
         }
 
@@ -91,15 +97,27 @@ import { Head } from '@inertiajs/vue3';
         });
 
         if (response.data.success) {
-          alert('Trecho salvo com sucesso!');
+          Swal.fire({
+            icon: 'success',
+            title: 'Sucesso',
+            text: 'Trecho salvo com sucesso!',
+          });
           geoData.value = response.data.geo; // Atualizar dados do GeoJSON
           updateMap(); // Atualizar o mapa
-          // Obtém o nível de zoom atual
         } else {
-          alert('Erro ao salvar trecho.');
+          Swal.fire({
+            icon: 'error',
+            title: 'Erro',
+            text: response.data.message || 'Erro ao salvar trecho.',
+          });
         }
       } catch (error) {
         console.error('Erro ao salvar trecho:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Erro',
+          text: 'Erro ao salvar trecho.',
+        });
       }
     };
 
