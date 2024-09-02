@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tabela de Trechos</title>
+    <title>Lista de Trechos</title>
     <style>
         .container {
             margin-top: 20px;
@@ -22,8 +22,9 @@
     </style>
 </head>
 <body>
+<nav-bar></nav-bar> 
     <div class="container">
-        <h1 class="my-4">Tabela de Trechos</h1>
+        <h1 class="my-4">Lista de Trechos</h1>
         <a href="{{ route('trechos.create') }}" class="btn btn-primary mb-3">Cadastrar Novo Trecho</a>
         <table class="table table-striped table-bordered">
             <thead>
@@ -89,3 +90,8 @@
     </script>
 </body>
 </html>
+<style>
+    .hidden{
+        display: none;
+    }
+</style>
