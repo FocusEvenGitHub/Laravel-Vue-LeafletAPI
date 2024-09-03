@@ -6,7 +6,8 @@ import axios from 'axios';
 import NavBar from '@/Components/NavBar.vue';
 import { Head } from '@inertiajs/vue3';
 import Swal from 'sweetalert2';
-
+import useVuelidate from '@vuelidate/core';
+import { required, minValue } from '@vuelidate/validators';
 
 
 
@@ -19,13 +20,25 @@ import Swal from 'sweetalert2';
       kmInicial: null,
       kmFinal: null
     });
-
+    
     const ufs = ref([]);
     const rodovias = ref([]);
     const tipos = ref([]);
     const map = ref(null); 
     const geoData = ref(null);
     
+    // Regras de validação usando Vuelidate
+    const rules = {
+      date: { required },
+      uf: { required },
+      rodovia: { required },
+      tipo: { required },
+      kmInicial: { required, minValue: minValue(0) },
+      kmFinal: { required, minValue: minValue(0) }
+    };
+
+    // Inicializa a validação
+    const v$ = useVuelidate(rules, filters);
 
     const fetchUfs = async () => {
       try {
@@ -75,14 +88,16 @@ import Swal from 'sweetalert2';
 
     const saveTrecho = async () => {
       try {
+        const isFormValid = await v$.value.$validate();
+
         const ufId = ufs.value.find(uf => uf.uf === filters.value.uf)?.id;
         const rodoviaId = rodovias.value.find(rodovia => rodovia.rodovia === filters.value.rodovia)?.id;
 
-        if (!ufId || !rodoviaId) {
+        if (!isFormValid) {
           Swal.fire({
             icon: 'error',
             title: 'Erro',
-            text: 'UF ou rodovia inválida.',
+            text: 'Dados inválidos.',
           });
           return;
         }
